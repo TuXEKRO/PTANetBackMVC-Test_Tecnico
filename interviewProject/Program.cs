@@ -30,6 +30,12 @@ builder.Services.AddSwaggerGen();
 // Register event receivers found in the assembly
 EventManager.RegisterEventReceivers(builder.Services);
 
+// Configure port
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);
+});
+
 var app = builder.Build();
 
 // Apply database migrations and initialize event receivers at startup
@@ -44,15 +50,15 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
-{
-    // Enable middleware for serving generated Swagger as a JSON endpoint
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+// Enable middleware for serving generated Swagger as a JSON endpoint
+app.UseSwagger();
+app.UseSwaggerUI();
+// }
 
 // Enable HTTPS redirection
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 // Enable authorization middleware
 app.UseAuthorization();
