@@ -1,45 +1,53 @@
-# Prueba Técnica para candidatos
+# Interview Project API
 
-## Descripción
+## Getting Started
 
-Este repositorio contiene una prueba técnica para candidatos que deseen unirse a nuestro equipo de desarrollo backend y frontend. El objetivo de la prueba es evaluar las habilidades de los candidatos en el desarrollo de aplicaciones utilizando tecnologías como .NET, C#, SQL Server, MVC...
+### 1. Initializing Docker Compose
 
-## Instrucciones
+Follow these steps to set up and run the API and SQL Server using Docker Compose:
 
-1. Realizar un programa en .NET - C# que cumpla con los siguientes requisitos:
-    - Haz un fork de este proyecto
-    - Consumir la siguiente API: [https://api.opendata.esett.com/](https://api.opendata.esett.com/). Escoge sólo 1 servicio cualquiera de los proporcionados por la API.
-    - Almacenar la información obtenida en la base de datos. (usa SQL Server en contenedor de docker para esto)
-    - Implementar un controlador que permita filtrar por Primary Key en la base de datos.
-    - Construir una API REST con Swagger que permita visualizar los datos almacenados en la base de datos.
-    - Usar contenedores Docker para DDBB y la propia App
-    - Usa arquitectura MVC (sólo API imagina que existe un segundo proyecto con el frontend, por tanto las vistas serán DTOs)
-    - Haz un pull request con tu nombre completo y comenta lo que creas necesario al evaluador técnico.
-    - Elige entre implementar CRUD o CQRS
+1. **Ensure Docker and Docker Compose are installed** on your machine.
 
-### Criterios de evaluación:
+2. **Navigate to the project directory** where the `docker-compose.yml` file is located.
 
-Se valorará positivamente (pero no es obligatorio cumplir con todos estos puntos):
+   ```bash
+   cd path/to/project
+   ```
 
-1. El uso de código limpio y buenas prácticas de programación tanto en el frontend como en el backend.
-2. Utilizar código generado a mano en lugar de depender excesivamente de herramientas de generación automática.
-3. Hacer commits frecuentes y bien explicados durante el desarrollo.
-4. Demostrar conocimientos en patrones de diseño, tanto en el frontend como en el backend.
-5. Gestion correcta de los secretos como cadenas de conexión, usuarios, passwords...
-6. Uso del inglés en código y comentarios
-7. Uso de elementos de monitoreo y observabilidad como ILogger
-8. Uso de Eventos
-9. Manejo de excepciones con patron monad
-10. Pruebas de test
+3. **Build and start the containers** by running the following command:
 
-## Tecnologías utilizadas
+   ```bash
+   docker-compose up --build
+   ```
 
-- .NET - C#
-- SQL Server
-- MVC
+   This command will:
+   - Pull the required Docker images.
+   - Build the API application container.
+   - Start both the API and SQL Server containers.
+   - The API will be accessible at `http://localhost:8081/swagger`.
 
-## Estructura del repositorio
+4. **Access the API** via a web browser at `http://localhost:8081/swagger`or using your preferred API client.
 
-No hay restricciones específicas sobre la estructura del repositorio. Los candidatos son libres de organizar su código de la manera que consideren más apropiada. Sin embargo, se recomienda seguir las convenciones de nomenclatura y estructura de proyecto estándar.
+### 2. Running Tests
 
-¡Buena suerte!
+To run the tests for the Interview Project API, follow these steps:
+
+1. **Ensure the containers are running** as described in the previous section.
+
+2. **Navigate to the test project directory** named `interviewProject.Tests`.
+
+   ```bash
+   cd path/to/project/interviewProject.Tests
+   ```
+
+3. **Run the tests** using the .NET CLI:
+
+   ```bash
+   dotnet test
+   ```
+
+   This command will execute all the unit tests within the project and provide a summary of the test results in the terminal.
+
+### Conclusion
+
+With the API and SQL Server containers running, you can interact with the API endpoints and run tests to ensure everything is working as expected. For more detailed information on the API endpoints and usage, please refer to the API documentation.
