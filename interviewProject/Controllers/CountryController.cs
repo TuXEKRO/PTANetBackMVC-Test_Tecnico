@@ -1,4 +1,5 @@
 using interviewProject.DTOs;
+using interviewProject.Events;
 using interviewProject.Services;
 using interviewProject.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,8 @@ namespace interviewProject.Controllers
         {
             var result = await _countryService.GetAllCountriesAsync(countryCode);
 
+            EventManager.Emit("OnGetAllCountries", (HttpContext, result));
+
             return result.IsSuccess ? Ok(result.Value) : NotFound();
         }
 
@@ -30,6 +33,8 @@ namespace interviewProject.Controllers
         {
             var result = await _countryService.GetCountryByCodeAsync(countryCode);
 
+            EventManager.Emit("OnGetCountryByCode", (HttpContext, result));
+
             return result.IsSuccess ? Ok(result.Value) : NotFound();
         }
 
@@ -37,6 +42,8 @@ namespace interviewProject.Controllers
         public async Task<IActionResult> AddCountry([FromBody] CountryDto countryDto)
         {
             var result = await _countryService.AddCountryAsync(countryDto);
+
+            EventManager.Emit("OnAddCountry", (HttpContext, result));
 
             return result.IsSuccess ?
                 CreatedAtAction(nameof(GetCountryByCode), new { countryCode = countryDto.CountryCode }, countryDto)
@@ -48,6 +55,8 @@ namespace interviewProject.Controllers
         {
             var result = await _countryService.UpdateCountryAsync(countryCode, countryDto);
 
+            EventManager.Emit("OnUpdateCountry", (HttpContext, result));
+
             return result.IsSuccess ? NoContent() : NotFound(result.Error);
         }
 
@@ -55,6 +64,8 @@ namespace interviewProject.Controllers
         public async Task<IActionResult> DeleteCountry(string countryCode)
         {
             var result = await _countryService.DeleteCountryAsync(countryCode);
+
+            EventManager.Emit("OnDeleteCountry", (HttpContext, result));
 
             return result.IsSuccess ? NoContent() : NotFound(result.Error);
         }
@@ -64,6 +75,8 @@ namespace interviewProject.Controllers
         {
             var result = await _countryService.GetMbasByCountryCodeAsync(countryCode);
 
+            EventManager.Emit("OnGetMbasByCountryCode", (HttpContext, result));
+
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
@@ -71,6 +84,8 @@ namespace interviewProject.Controllers
         public async Task<IActionResult> AddMbaToCountry(string countryCode, [FromBody] MbaDto mbaDto)
         {
             var result = await _countryService.AddMbaToCountryAsync(countryCode, mbaDto);
+
+            EventManager.Emit("OnAddMbaToCountry", (HttpContext, result));
 
             return result.IsSuccess ? NoContent() : NotFound(result.Error);
         }
