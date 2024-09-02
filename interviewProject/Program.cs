@@ -15,6 +15,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Register custom services
 
+// Add essential services for controllers, HTTP clients, and background services
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddHostedService<MbaOptionsService>();
 
 // Register API documentation services (Swagger)
 builder.Services.AddEndpointsApiExplorer();
