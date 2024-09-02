@@ -1,4 +1,5 @@
 using interviewProject.Data;
+using interviewProject.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,9 +12,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
-
+    
 
 // Register custom services
+// Add CountryService as a scoped dependency
+builder.Services.AddScoped<ICountryService, CountryService>();
 
 // Add essential services for controllers, HTTP clients, and background services
 builder.Services.AddControllers();
@@ -25,6 +28,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Apply database migrations and initialize event receivers at startup
+using (var scope = app.Services.CreateScope())
+{
+    // Apply pending migrations to the database
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
